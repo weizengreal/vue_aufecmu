@@ -84,14 +84,7 @@
 //        console.log(data);
 //      },
       setThisNoteImgInfo : function (imgInfo) {
-//          console.log(imgInfo);
         this.noteImgData= imgInfo;
-//        console.log("setThisNoteImgInfo");
-//        console.log(imgInfo);
-//        this.noteImgData = JSON.parse(imgInfo);
-//        if(this.noteImgData.length > 1) {
-//          this.noteImgClass="noteImgInfo2";
-//        }
       }
     },
     components : {
