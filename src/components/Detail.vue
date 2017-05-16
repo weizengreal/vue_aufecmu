@@ -4,19 +4,11 @@
       <div class="banner-left fl">
         <div class="fl banner-p" @click="returnTofind">
           <p class="banner-f-13 banner-enter">
-            <!-- <img src="../../images/group_arrow.png?v=f76cb59"> -->
             <span>进入</span>
           </p>
           <p><span id="banner-group-name">校友圈</span><span class="vertical-line"></span></p>
         </div>
         <p></p>
-      </div>
-      <!-- <a class="fr create_a"><span>发表</span></a> -->
-      <div class="fr">
-        <a class="banner-button hide b-r-4 js_up_click" @click="goPublish">
-          <!-- <img src="../../images/topic01.png?v=ca15a18"> -->
-          <span>发表</span>
-        </a>
       </div>
     </div>
     <br>
@@ -239,14 +231,13 @@
       Toast
     },
   created : function () {
-//    console.log(this.$route.params.noteid);
+//    this.$store.state.tabbar = false;
     var self = this;
     Axios.get(Axios.default.baseURI+"getDetail?access_token="+Axios.default.access_token,{
       params : {
         noteid  : this.$route.params.noteid
       }
     }).then(function (response) {
-//      console.log(response.data.data);
       self.thisNoteData = response.data.data;
     })
 
