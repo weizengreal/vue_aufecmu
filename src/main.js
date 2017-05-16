@@ -57,12 +57,6 @@ const router = new VueRouter({
   // }
 });
 
-
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 20170516weizeng
 var app = new Vue({
   el: '#app',
   data : {
