@@ -134,7 +134,14 @@
     },
     methods : {
       returnTofind :function () {
-          this.$router.go(-1);
+          if(location.href.indexOf("?from") === -1) {
+              // 默认直接返回上一层
+            this.$router.go(-1);
+          }
+          else {
+            // 检测是否由微信分享而来，如果是则需要将当前路由替换为如何路由，解决分享时返回上一层失败的bug
+            this.$router.replace("/find/"+this.thisNoteData.type);
+          }
       },
       goPublish : function () {
         this.$router.push("/publish");
