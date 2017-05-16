@@ -30,6 +30,7 @@
 <script>
     import upload from '../utils/uploader';
     import Axios from "axios";
+    import Toast from "../templete/toast.vue";
     export default {
         name: 'publish',
         data() {
@@ -42,6 +43,9 @@
                 message : "kong",
             }
         },
+        components : {
+            Toast
+        },
         methods: {
             uploadImg: function(evt) {
                 let fileList = Array.from(evt.target.files),
@@ -52,7 +56,7 @@
                     console.log('最多允许9张图片');
                     fileList.splice(restNum, fileList.length - restNum);
                 }
-                
+
                 fileList.forEach((item, index) => {
                     let picIndex = this.picList.length;
                     this.picList.push('');
@@ -78,16 +82,15 @@
             },
             publish: function() {
                 if (this.uploadFlag) {
-                    console.log("正在上传图片");
+                    this.toastState = 2;
+                    this.message = "正在上传图片";
                     return false;
                 }
-                console.log(this.content);
                 let picList = {};
                 this.picList.forEach((item, index) => {
 //                    console.log(item);
                     picList[index] = item;
                 });
-                console.log(picList);
                 const sourceData = new URLSearchParams(),self = this;
                 sourceData.append('type', this.$route.params.type);
                 sourceData.append('content', this.content);

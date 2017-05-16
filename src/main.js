@@ -56,12 +56,6 @@ const router = new VueRouter({
 
 
 
-// window['localStorage']['access_token']='$2y$10$xxctjre1/4Ybmo8LjD/tpONMLBz2RGYWWlU8HgUspf3l5cNCc/7jS';
-// window['localStorage']['timeOut']='1494953832';
-
-// window['localStorage']['headimgurl']='http://wx.qlogo.cn/mmopen/vi_32/gEvn4xqTyhJ2G3HppwQcMRPjicicR824cicpy5PeaRHJC6GeCY91ZyVgdCoO4LhRrnYCOqsCX1uU97yxmw0afVLxw/0';
-// window['localStorage']['nickname']='味增';
-
 
 var app = new Vue({
   el: '#app',
@@ -84,20 +78,25 @@ var app = new Vue({
     console.log("初始化应用配置");
     // 初始化权限配置
     // 1、初始化权限
+    var auth = true;
     try {
       if('localStorage' in window && window['localStorage'] !== null) {
         Axios.default.access_token = window['localStorage']['access_token'];
-        Axios.default.authority = new Date().getTime()/1000 < window['localStorage']['timeOut'];
+        auth = new Date().getTime()/1000 < window['localStorage']['timeOut'];
       }
       else {
         // 设置accessToken超时
         Axios.default.access_token = "";
-        Axios.default.authority = false;
+          auth = false;
       }
     } catch (e) {
       // 设置accessToken超时
       Axios.default.access_token = "";
-      Axios.default.authority = false;
+        auth = false;
+    }
+    if(!auth) {
+        var url = "http://wx.aufe.vip/aufecmu_v4/xyq?redirectUri="+window.location.href.split("#/")[1];
+        window.location.href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5aba40d737e98b5d&redirect_uri='+url+'&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect';
     }
     // 初始化可见区域的高度
     // this.height = (window.screen.availHeight - 53) + "px";
