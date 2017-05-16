@@ -11,10 +11,11 @@ import Find from './components/Find.vue'
 import Detail from './components/Detail.vue'
 import Publish from './components/Publish.vue'
 import NotFound from './components/404.vue'
-import wx from 'weixin-js-sdk';
+import { WechatPlugin } from 'vux'
 
-import "weui/dist/style/weui.css"
+// import "weui/dist/style/weui.css"
 Vue.use(VueRouter);
+Vue.use(WechatPlugin);
 Axios.default.baseURI="https://api.aufe.vip/xyq/";
 
 
@@ -78,7 +79,7 @@ var app = new Vue({
         url: `${window.location.host}?${window.location.href.split('?')[1]}`,
       })
     }).then(res => {
-      wx.config(res.data)
+      this.$wechat.config(res.data)
     })
     console.log("初始化应用配置");
     // 初始化权限配置

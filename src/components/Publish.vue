@@ -28,7 +28,6 @@
 </template>
  
 <script>
-    // import wx from 'weixin-js-sdk';
     import upload from '../utils/uploader';
     export default {
         name: 'publish',
@@ -69,6 +68,7 @@
                 this.picList.splice(index, 1);
             },
             publish: function() {
+                console.log(this.$wechat);
                 console.log(this.content);
                 let picList = {};
                 this.picList.forEach((item, index) => {
