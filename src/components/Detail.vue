@@ -179,6 +179,12 @@
         sourceData.append('single', single);
         sourceData.append('owner', owner);
         sourceData.append('comment', _comment);
+        sourceData = {
+          noteid: this.$route.params.noteid,
+          single: single,
+          owner: owner,
+          comment: _comment
+        }
         Axios.post(Axios.default.baseURI+"createComment?access_token="+Axios.default.access_token,sourceData).then(function (response) {
           console.log(response.data.data);
           if(response.data.status === 1) {

@@ -49,7 +49,7 @@
   import Axios from "axios";
   import Loadmore from "../templete/Loadmore.vue";
   import Toast from "../templete/toast.vue";
-  const infiniteScroll =  require('vue-infinite-scroll');
+  import infiniteScroll from 'vue-infinite-scroll';
   Vue.use(infiniteScroll);
   export default{
     directives: {infiniteScroll},

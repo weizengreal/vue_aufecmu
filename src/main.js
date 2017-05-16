@@ -59,8 +59,7 @@ const router = new VueRouter({
 
 // window['localStorage']['headimgurl']='http://wx.qlogo.cn/mmopen/vi_32/gEvn4xqTyhJ2G3HppwQcMRPjicicR824cicpy5PeaRHJC6GeCY91ZyVgdCoO4LhRrnYCOqsCX1uU97yxmw0afVLxw/0';
 // window['localStorage']['nickname']='味增';
-
-
+import wx from 'weixin-js-sdk';
 var app = new Vue({
   el: '#app',
   data : {
@@ -70,7 +69,15 @@ var app = new Vue({
   store,
   ...App,
   created : function () {
-    console.log("初始化应用配置");
+    Axios({
+      method: 'post',
+      url: '//api.aufe.vip/jssdk/zacShare',
+      data: JSON.stringify({
+        url: `${window.location.host}?${window.location.href.split('?')[1]}`,
+      })
+    }).then(res => {
+      wx.config(res.data)
+    })
     // 初始化权限配置
     // 1、初始化权限
     try {
