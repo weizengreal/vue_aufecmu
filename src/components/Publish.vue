@@ -2,16 +2,16 @@
     <transition name="up">
         <div class="wrapper">
             <div class="header">
-                <div class="title">
+                <div class="title" @click="cancel">
                     取消
                 </div>
-                <div @click="publish">
+                <div class="publish" @click="publish">
                     发布
                 </div>
             </div>
             <div class="publish-wrapper">
                 <textarea v-model="content" class="content" placeholder="分享自己的观点..."></textarea>
-                <div>{{picList.length}}/{{allowPicNum}}</div>
+                <!--<div>{{picList.length}}/{{allowPicNum}}</div>-->
                 <div class="pic-wrapper">
                     <div v-for="(item, index) in picList" class="pic-item">
                         <div @click="delImg(index)" v-show="item !== ''" class="cancel"></div>
@@ -22,20 +22,24 @@
                 </div>
                 <input id="picUploader" type="file" style="display: none" accept="image/*" multiple="multiple" @change="uploadImg">
             </div>
+            <toast :toast="toastState" :message="message"></toast>
         </div>
     </transition>
 </template>
- 
+
 <script>
     import upload from '../utils/uploader';
+    import Axios from "axios";
     export default {
         name: 'publish',
         data() {
             return {
-                picList: [], 
+                picList: [],
                 content: '',
                 allowPicNum: 9,
                 uploadFlag: false,
+                toastState : 3,
+                message : "kong",
             }
         },
         methods: {
@@ -46,12 +50,14 @@
                     console.log('最多允许9张图片');
                     fileList.splice(restNum, fileList.length - restNum);
                 }
-                
+
                 fileList.forEach((item, index) => {
                     let picIndex = this.picList.length;
                     this.picList.push('');
-                    upload(item).then((res) => { 
-                        this.picList.splice(picIndex, 1, `//file.woai662.com/${res.data.key}`);
+                    upload(item).then((res) => {
+                        console.log(res);
+                        this.picList.splice(picIndex, 1, `http://file.woai662.com/${res.data.key}`);
+
                     })
                 })
                 document.querySelector('#picUploader').value = '';
@@ -63,7 +69,7 @@
                 document.querySelector('#picUploader').click();
             },
             delImg: function(index) {
-                console.log(index)
+                console.log(index);
                 this.picList.splice(index, 1);
             },
             publish: function() {
@@ -71,9 +77,32 @@
                 console.log(this.content);
                 let picList = {};
                 this.picList.forEach((item, index) => {
+//                    console.log(item);
                     picList[index] = item;
-                })
+                });
                 console.log(picList);
+                const sourceData = new URLSearchParams(),self = this;
+                sourceData.append('type', this.$route.params.type);
+                sourceData.append('content', this.content);
+                sourceData.append('imgInfo', JSON.stringify(picList));
+                Axios.post(Axios.default.baseURI+"createNote?access_token="+Axios.default.access_token,sourceData).then(function (response) {
+                    if(response.data.status === 1) {
+                        // 应将vuex中对应的数据字段初始化为空
+                        self.$store.state.findData[self.$route.params.type] = {
+                            page : 1,
+                            data : [],
+                            loadState : 1
+                        };
+                        self.$router.go(-1);
+                    }
+                    else {
+                        self.toastState=5;
+                        self.message="发帖失败";
+                    }
+                });
+            },
+            cancel : function () {
+                this.$router.go(-1);
             }
         }
     }
@@ -83,9 +112,20 @@
 .header {
     display: flex;
 
+    border-bottom: 1px solid #dcdcdc;
+
+    padding: 0 1.5rem;
+
+    line-height: 5rem;
+
+    font-size: 1.6rem;
+
     .title {
         flex: 1;
     }
+
+
+
 }
 
 .publish-wrapper {
@@ -98,8 +138,10 @@
         border: none;
         background: transparent;
         resize: none;
-        width: 100%;
-        height: 200px;
+        width: 94%;
+        height: 120px;
+        margin-left: 3%;
+        padding:1.5rem 0;
     }
 }
 

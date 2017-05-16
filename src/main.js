@@ -56,7 +56,7 @@ const router = new VueRouter({
 
 
 
-// window['localStorage']['access_token']='$2y$10$0xP8gen2A0yRvtxvAVHGUuZtYjK3rYGy3bSuI9ssiJ/uvZQFN0o2m';
+// window['localStorage']['access_token']='$2y$10$xxctjre1/4Ybmo8LjD/tpONMLBz2RGYWWlU8HgUspf3l5cNCc/7jS';
 // window['localStorage']['timeOut']='1494953832';
 
 // window['localStorage']['headimgurl']='http://wx.qlogo.cn/mmopen/vi_32/gEvn4xqTyhJ2G3HppwQcMRPjicicR824cicpy5PeaRHJC6GeCY91ZyVgdCoO4LhRrnYCOqsCX1uU97yxmw0afVLxw/0';
