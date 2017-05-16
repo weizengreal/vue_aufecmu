@@ -6,7 +6,7 @@
   </div>
 </template>
 <script>
-
+  import Axios from "axios";
 import Layout from './templete/Layout.vue'
  export default {
    name: 'app',

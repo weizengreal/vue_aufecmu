@@ -13,8 +13,11 @@ import Publish from './components/Publish.vue'
 import NotFound from './components/404.vue'
 
 import "weui/dist/style/weui.css"
+
+
 Vue.use(VueRouter);
 Axios.default.baseURI="https://api.aufe.vip/xyq/";
+
 
 
 const routes = [{
@@ -53,18 +56,10 @@ const router = new VueRouter({
 });
 
 
-
-// window['localStorage']['access_token']='$2y$10$0xP8gen2A0yRvtxvAVHGUuZtYjK3rYGy3bSuI9ssiJ/uvZQFN0o2m';
-// window['localStorage']['timeOut']='1494953832';
-
-// window['localStorage']['headimgurl']='http://wx.qlogo.cn/mmopen/vi_32/gEvn4xqTyhJ2G3HppwQcMRPjicicR824cicpy5PeaRHJC6GeCY91ZyVgdCoO4LhRrnYCOqsCX1uU97yxmw0afVLxw/0';
-// window['localStorage']['nickname']='味增';
-
-
 var app = new Vue({
   el: '#app',
   data : {
-    height : "auto",
+    imgUrl : "http://wx.aufe.vip/aufecmu_v4/public/images/share.png",
   },
   router ,
   store,
@@ -88,9 +83,8 @@ var app = new Vue({
       Axios.default.access_token = "";
       Axios.default.authority = false;
     }
-    // 初始化可见区域的高度
-    // this.height = (window.screen.availHeight - 53) + "px";
-    // 初始化主题配置文件
-    // store.dispatch();
+    // 初始化分享
+    const self = this,sourceData = new URLSearchParams();
+    sourceData.append('url', encodeURIComponent(location.href.split('#')[0]));
   }
 });

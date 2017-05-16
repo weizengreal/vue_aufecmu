@@ -155,13 +155,7 @@
       },
       comment : function (single, owner ,noteName,index) {
           // 1：隐藏输入框 2：判断数据是否合法 3：发送数据 4：操作反馈 5：前端渲染
-        console.log("single:"+single);
-        console.log("owner:"+owner);
         var _comment = single === 0 ? this.mainCommentText : this.commentText,self = this,sourceData = new URLSearchParams();
-        console.log("commentText:"+_comment);
-        console.log("noteid:"+this.$route.params.noteid);
-        console.log("access_token:"+Axios.default.access_token);
-
         this.comId = -1;
         this.mainCommentText = "";
         if(_comment === '') {
