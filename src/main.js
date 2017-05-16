@@ -13,7 +13,7 @@ import Publish from './components/Publish.vue'
 import NotFound from './components/404.vue'
 import { WechatPlugin } from 'vux'
 
-// import "weui/dist/style/weui.css"
+import "weui/dist/style/weui.css"
 Vue.use(VueRouter);
 Vue.use(WechatPlugin);
 Axios.default.baseURI="https://api.aufe.vip/xyq/";

@@ -20,8 +20,7 @@
                     </div>
                     <img v-show="picList.length < 9" @click="addImg()" class="add-img" src="../../static/images_v2/add_imgs.png" alt="">
                 </div>
-                <!--<input id="picUploader" type="file" style="display: none" accept="image/*" multiple="multiple" @change="uploadImg">-->
-                <input id="picUploader" type="file" style="display: none" multiple="multiple" @change="uploadImg">
+                <input id="picUploader" type="file" style="display: none" accept="image/*" multiple="multiple" @change="uploadImg">
             </div>
         </div>
     </transition>
