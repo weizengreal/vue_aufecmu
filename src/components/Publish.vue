@@ -45,20 +45,24 @@
         methods: {
             uploadImg: function(evt) {
                 let fileList = Array.from(evt.target.files),
-                    restNum = this.allowPicNum - this.picList.length;
+                    restNum = this.allowPicNum - this.picList.length,
+                    promiseArr = [];
+                this.uploadFlag = true;
                 if (fileList.length > restNum) {
                     console.log('最多允许9张图片');
                     fileList.splice(restNum, fileList.length - restNum);
                 }
-
+                
                 fileList.forEach((item, index) => {
                     let picIndex = this.picList.length;
                     this.picList.push('');
-                    upload(item).then((res) => {
+                    promiseArr.push(upload(item).then((res) => {
                         console.log(res);
                         this.picList.splice(picIndex, 1, `http://file.woai662.com/${res.data.key}`);
-
-                    })
+                    }));
+                })
+                Promise.all(promiseArr).then(() => {
+                    this.uploadFlag = false;
                 })
                 document.querySelector('#picUploader').value = '';
             },
@@ -73,7 +77,10 @@
                 this.picList.splice(index, 1);
             },
             publish: function() {
-                console.log(this.$wechat);
+                if (this.uploadFlag) {
+                    console.log("正在上传图片");
+                    return false;
+                }
                 console.log(this.content);
                 let picList = {};
                 this.picList.forEach((item, index) => {
