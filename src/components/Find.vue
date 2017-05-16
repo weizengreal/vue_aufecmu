@@ -14,9 +14,10 @@
           infinite-scroll-distance="50">
         <li v-for="item in noteData" @click="goToDetail(item.noteid)">
           <div class="topic-main">
-            <div class="topic-li"><p class="fl top-m-img">
-              <img :src="item.headimgurl">
-            </p>
+            <div class="topic-li">
+              <p class="fl top-m-img">
+                <img :src="item.headimgurl">
+              </p>
               <div class="topic-p"><p class="f-3-16">{{ item.nickname }}</p>
                 <p class="f-g-11 pt4">{{ item.signtime }}</p></div>
               <em class="theme-narrow"></em></div>
@@ -32,13 +33,14 @@
             <div class="pay-list" style="padding-left: 0 !important;">
               <span class="pay-like">{{ item.zan }}</span>
               <span class="pay-reply">{{ item.comcount}}</span>
+              <span style="float: right;margin-right: 0;font-size: 1.2rem;">{{ item.theme }}</span>
             </div>
           </div>
         </li>
       </ul>
 
     </div>
-    <loadmore :state="state"></loadmore>
+    <loadmore :state="findStore.findData[this.$route.params.sign].loadState"></loadmore>
     <toast :toast="toastState" :message="message"></toast>
   </div>
 </template>
@@ -74,24 +76,11 @@
       },
       loadMore : function () {
         // 初始化数据，初始状态下也会默认会执行一次
-//        console.log("loadMore");
         // 状态码等于1，可以动态加载
-        if(this.state === 1) {
-          this.$store.dispatch("getFindData",this.$route.params.sign);
+        const findType = this.$route.params.sign;
+        if(this.findStore.findData[findType].loadState === 1) {
+          this.$store.dispatch("getFindData",findType);
         }
-      },
-//      handleData : function (data) {
-//        console.log(data);
-//      },
-      setThisNoteImgInfo : function (imgInfo) {
-//          console.log(imgInfo);
-        this.noteImgData= imgInfo;
-//        console.log("setThisNoteImgInfo");
-//        console.log(imgInfo);
-//        this.noteImgData = JSON.parse(imgInfo);
-//        if(this.noteImgData.length > 1) {
-//          this.noteImgClass="noteImgInfo2";
-//        }
       }
     },
     components : {
@@ -141,11 +130,10 @@
 //              console.log(this.findStore.newNoteData[index]);
               this.noteData.push(this.findStore.newNoteData[index]);
             }
-//          console.log(this.noteData);
         }
     },
     created : function () {
-      // 先从vuex中加载相关数据
+      // 先从vuex中加载相关数据，需要判断当前路由参数是否正确
       if(typeof this.findStore.findData[this.$route.params.sign] !== "undefined") {
           for (var index in this.findStore.findData[this.$route.params.sign].data) {
             this.noteData.push(this.findStore.findData[this.$route.params.sign].data[index]);
@@ -154,9 +142,6 @@
       else {
         this.$router.push("404");
       }
-//      console.log(typeof this.noteData);
-//      console.log(this.noteData);
-//      console.log("created");
     },
   }
 
