@@ -11,6 +11,7 @@ import Find from './components/Find.vue'
 import Detail from './components/Detail.vue'
 import Publish from './components/Publish.vue'
 import NotFound from './components/404.vue'
+import wx from 'weixin-js-sdk';
 
 import "weui/dist/style/weui.css"
 Vue.use(VueRouter);
@@ -54,7 +55,7 @@ const router = new VueRouter({
 
 
 
-// window['localStorage']['access_token']='$2y$10$0xP8gen2A0yRvtxvAVHGUuZtYjK3rYGy3bSuI9ssiJ/uvZQFN0o2m';
+// window['localStorage']['access_token']='$2y$10$xxctjre1/4Ybmo8LjD/tpONMLBz2RGYWWlU8HgUspf3l5cNCc/7jS';
 // window['localStorage']['timeOut']='1494953832';
 
 // window['localStorage']['headimgurl']='http://wx.qlogo.cn/mmopen/vi_32/gEvn4xqTyhJ2G3HppwQcMRPjicicR824cicpy5PeaRHJC6GeCY91ZyVgdCoO4LhRrnYCOqsCX1uU97yxmw0afVLxw/0';
@@ -70,6 +71,15 @@ var app = new Vue({
   store,
   ...App,
   created : function () {
+    Axios({
+      method: 'post',
+      url: '//api.aufe.vip/jssdk/zacShare',
+      data: JSON.stringify({
+        url: `${window.location.host}?${window.location.href.split('?')[1]}`,
+      })
+    }).then(res => {
+      wx.config(res.data)
+    })
     console.log("初始化应用配置");
     // 初始化权限配置
     // 1、初始化权限
