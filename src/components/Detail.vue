@@ -78,7 +78,6 @@
                     <a class="reply-submit b-r-4 js-reply-s" @click="comment(item.comId,item.comId,item.nickname,index)">评论</a>
                   </div>
                 </div>
-
                 <div v-if="item.repliedComment" v-for="it in item.repliedComment" class="re-com-div">
                   <div>
                     <div class="child-com-hr"></div>
@@ -100,10 +99,6 @@
                     </div>
                   </div>
                 </div>
-
-
-
-
               </li>
             </ul>
             <div class="dropload-down" style="display: none;"></div></div>

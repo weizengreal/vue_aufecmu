@@ -4,7 +4,7 @@
       <div class="fl theme_header_left">
         <span class="fl">校友圈</span>
       </div>
-      <a class="fr create_a" @click="goPublish"><span>发表</span></a>
+      <a v-if="isPublish" class="fr create_a" @click="goPublish"><span>发表</span></a>
     </div>
     <div class="content">
 
@@ -64,12 +64,13 @@
           message : "kong",
           noteImgData : {},
           noteImgClass : "noteImgInfo1",
-          findStore : this.$store.state
+          findStore : this.$store.state,
+          isPublish : true
         }
     },
     methods : {
       goPublish : function () {
-        this.$router.push("/publish");
+        this.$router.push("/publish/"+this.$route.params.sign);
       },
       goToDetail : function (noteid) {
         this.$router.push({ path : "/detail/"+noteid });
@@ -113,20 +114,19 @@
               case -2: {
                 this.state = 3;
                 this.toastState = 1;
-                this.message = "API处message";
+                this.message = "请刷新再试";
                 break;
               }
               case -4: {
                 this.state = 3;
                 this.toastState = 1;
-                this.message = "API处message";
-
+                this.message = "主题不存在";
                 break;
               }
               default: {
                 this.state = 3;
                 this.toastState = 1;
-                this.message = "API处message";
+                this.message = "网络错误3";
               }
             }
         },
@@ -139,7 +139,7 @@
         }
     },
     created : function () {
-      // 先从vuex中加载相关数据，需要判断当前路由参数是否正确
+      // 1.先从vuex中加载相关数据，需要判断当前路由参数是否正确
       if(typeof this.findStore.findData[this.$route.params.sign] !== "undefined") {
           for (var index in this.findStore.findData[this.$route.params.sign].data) {
             this.noteData.push(this.findStore.findData[this.$route.params.sign].data[index]);
@@ -147,6 +147,13 @@
       }
       else {
         this.$router.push("404");
+      }
+      // 2、检测是否为默认发现页，默认则不显示发帖按钮
+      if(this.$route.params.sign === "find") {
+          this.isPublish = false;
+      }
+      else {
+          this.isPublish = true;
       }
     },
   }

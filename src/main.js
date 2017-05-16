@@ -30,7 +30,7 @@ const routes = [{
   path : "/detail/:noteid",
   component : Detail,
 },{
-  path : "/publish",
+  path : "/publish/:type",
   component : Publish,
 },{
   path : "*",
