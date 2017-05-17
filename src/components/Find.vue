@@ -40,7 +40,7 @@
       </ul>
 
     </div>
-    <loadmore :state="findStore.findData[this.$route.params.sign].loadState"></loadmore>
+    <loadmore :state="loadState"></loadmore>
     <toast :toast="toastState" :message="message"></toast>
   </div>
 </template>
@@ -67,6 +67,7 @@
           findStore : this.$store.state,
           isPublish : true,
             findType : this.$route.params.sign,
+            loadState : 1
         }
     },
     methods : {
@@ -79,8 +80,10 @@
       loadMore : function () {
         // 初始化数据，初始状态下也会默认会执行一次
         // 状态码等于1，可以动态加载
+          console.log(this.findStore.findData[this.findType].loadState);
         if(this.findStore.findData[this.findType].loadState === 1) {
-          this.$store.dispatch("getFindData",this.findType);
+            this.$store.dispatch("getFindData",this.findType);
+            this.findStore.findData[this.findType].loadState = 2;
         }
       },
 //      handleData : function (data) {
@@ -135,6 +138,9 @@
             for(var index in this.findStore.newNoteData) {
 //              console.log(this.findStore.newNoteData[index]);
               this.noteData.push(this.findStore.newNoteData[index]);
+            }
+            if(this.findStore.findData[this.findType].loadState === 2 || this.findStore.findData[this.findType].loadState === -2){
+                this.loadState = 2;
             }
         }
     },

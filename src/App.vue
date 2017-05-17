@@ -1,7 +1,7 @@
 <template>
   <div style="-webkit-overflow-scrolling: touch;">
     <router-view></router-view>
-    <div style="width: 100%;height: 53px;"></div>
+    <div style="width: 100%;height: 48px;"></div>
     <layout></layout>
   </div>
 </template>

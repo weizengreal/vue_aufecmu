@@ -86,6 +86,11 @@
                     this.message = "正在上传图片";
                     return false;
                 }
+                if(this.content === "") {
+                    this.toastState = 5;
+                    this.message = "内容不能为空";
+                    return false;
+                }
                 let picList = {};
                 this.picList.forEach((item, index) => {
 //                    console.log(item);

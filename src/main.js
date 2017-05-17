@@ -54,6 +54,8 @@ const router = new VueRouter({
   // }
 });
 
+// window['localStorage']['access_token']="$2y$10$Zz/djGPUFc6BvdS3uK7XjuOvMIxTW4m0RfKFZP1CWCnZZar4c6tmu";
+// window['localStorage']['timeOut']="1495281585";
 
 
 
@@ -80,7 +82,7 @@ var app = new Vue({
     // 1、初始化权限
     var auth = true;
     try {
-      if('localStorage' in window && window['localStorage'] !== null) {
+      if('localStorage' in window && window['localStorage'] !== null && typeof window['localStorage']['access_token'] !== "undefined" && typeof window['localStorage']['timeOut'] !== "undefined") {
         Axios.default.access_token = window['localStorage']['access_token'];
         auth = new Date().getTime()/1000 < window['localStorage']['timeOut'];
       }
@@ -95,8 +97,9 @@ var app = new Vue({
         auth = false;
     }
     if(!auth) {
-        var url = "http://wx.aufe.vip/aufecmu_v4/xyq?redirectUri="+window.location.href.split("#/")[1];
-        window.location.href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5aba40d737e98b5d&redirect_uri='+url+'&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect';
+        var url = encodeURIComponent("http://wx.aufe.vip/aufecmu_v4/xyq?redirectUri="+encodeURIComponent(window.location.href));
+        window.location.href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5aba40d737e98b5d&redirect_uri='+url
+            +'&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect';
     }
     // 初始化可见区域的高度
     // this.height = (window.screen.availHeight - 53) + "px";
