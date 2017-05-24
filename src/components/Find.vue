@@ -2,7 +2,7 @@
   <div class="topic_wrapper wrap">
     <div class="theme_header" id="group">
       <div class="fl theme_header_left">
-        <span class="fl">校友圈</span>
+        <span class="fl">{{findStore.findData[findType].themeName}}</span>
       </div>
       <a v-if="isPublish" class="fr create_a" @click="goPublish"><span>发表</span></a>
     </div>
@@ -33,7 +33,7 @@
             <div class="pay-list" style="padding-left: 0 !important;">
               <span class="pay-like">{{ item.zan }}</span>
               <span class="pay-reply">{{ item.comcount}}</span>
-              <span style="float: right;margin-right: 0;font-size: 1.2rem;">{{ item.theme }}</span>
+              <span v-if="findType != 'find'" style="float: right;margin-right: 0;font-size: 1.2rem;">{{ item.theme }}</span>
             </div>
           </div>
         </li>
@@ -80,6 +80,7 @@
       loadMore : function () {
         // 初始化数据，初始状态下也会默认会执行一次
         // 状态码等于1，可以动态加载
+          console.log("findType:"+this.findType);
           console.log(this.findStore.findData[this.findType].loadState);
         if(this.findStore.findData[this.findType].loadState === 1) {
             this.$store.dispatch("getFindData",this.findType);

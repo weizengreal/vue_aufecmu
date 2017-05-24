@@ -21,6 +21,12 @@ Vue.use(WechatPlugin);
 Axios.default.baseURI="https://api.aufe.vip/xyq/";
 
 
+// TODO 上线前需要删除这两行代码
+window['localStorage']['access_token']='$2y$10$IKcirBx7XIclDCJVsld9FeJ0sQ5N/7.N14z9SO/OkBjtzkLPPeTCm';
+window['localStorage']['timeOut']='1495884715';
+
+
+
 
 const routes = [{
   path : "/",
