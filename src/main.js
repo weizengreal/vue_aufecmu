@@ -1,5 +1,6 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+var isProduction = process.env.NODE_ENV === 'production';
 import Vue from 'vue'
 import VueRouter from "vue-router"
 import Axios from "axios"
@@ -78,26 +79,31 @@ var app = new Vue({
     console.log("初始化应用配置");
     // 初始化权限配置
     // 1、初始化权限
-    var auth = true;
-    try {
-      if('localStorage' in window && window['localStorage'] !== null && typeof window['localStorage']['access_token'] !== "undefined" && typeof window['localStorage']['timeOut'] !== "undefined") {
-        Axios.default.access_token = window['localStorage']['access_token'];
-        auth = new Date().getTime()/1000 < window['localStorage']['timeOut'];
-      }
-      else {
+    console.log(isProduction);
+    if (isProduction) {
+      var auth = true;
+      try {
+        if('localStorage' in window && window['localStorage'] !== null && typeof window['localStorage']['access_token'] !== "undefined" && typeof window['localStorage']['timeOut'] !== "undefined") {
+          Axios.default.access_token = window['localStorage']['access_token'];
+          auth = new Date().getTime()/1000 < window['localStorage']['timeOut'];
+        }
+        else {
+          // 设置accessToken超时
+          Axios.default.access_token = "";
+            auth = false;
+        }
+      } catch (e) {
         // 设置accessToken超时
         Axios.default.access_token = "";
           auth = false;
       }
-    } catch (e) {
-      // 设置accessToken超时
-      Axios.default.access_token = "";
-        auth = false;
-    }
-    if(!auth) {
-        var url = encodeURIComponent("http://wx.aufe.vip/aufecmu_v4/xyq?redirectUri="+encodeURIComponent(window.location.href));
-        window.location.href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5aba40d737e98b5d&redirect_uri='+url
-            +'&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect';
+      if(!auth) {
+          var url = encodeURIComponent("http://wx.aufe.vip/aufecmu_v4/xyq?redirectUri="+encodeURIComponent(window.location.href));
+          window.location.href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5aba40d737e98b5d&redirect_uri='+url
+              +'&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect';
+      }
+    } else {
+      console.log('deving');
     }
     // 初始化分享
     const self = this,sourceData = new URLSearchParams();
