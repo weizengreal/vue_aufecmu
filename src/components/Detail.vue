@@ -52,7 +52,7 @@
               </div>
               <div class="reply-buttons" v-if="comId == 0">
                 <a class="reply-cancel b-r-4 js-reply-c" @click="cancelReply">取消</a>
-                <a class="reply-submit b-r-4 js-reply-s" @click="comment(0,0,thisNoteData.nickname,index)">评论</a>
+                <a class="reply-submit b-r-4 js-reply-s" @click="comment(0,0,thisNoteData.nickname,0)">评论</a>
               </div>
             </div>
           </div>
@@ -106,7 +106,7 @@
       </div>
     </div>
     <gallery ref="Gallery" :bgImg="bgImg"></gallery>
-    <toast :toast="toastState" :message="message"></toast>
+    <!--<toast :toast="toastState" :message="message"></toast>-->
   </div>
 </template>
 
@@ -114,7 +114,8 @@
 
   import Axios from "axios"
   import Gallery from '../templete/gallery.vue'
-  import Toast from "../templete/toast.vue";
+//  import Toast from "../templete/toast.vue";
+  import  { Toast } from 'vux';
   export default {
     data() {
         return {
@@ -154,14 +155,17 @@
           this.comId = -1;
       },
       comment : function (single, owner ,noteName,index) {
+          // 现在的成功提示存在bug，我的组件那边使用watch，但是两次同时调用一个组件的时候值不变所以watch不到，想使用vux解决这个问题
+          // TODO 这里希望调用方法： this.$vux.toast.text('hello', 'top');
           // 1：隐藏输入框 2：判断数据是否合法 3：发送数据 4：操作反馈 5：前端渲染
         var _comment = single === 0 ? this.mainCommentText : this.commentText,self = this,sourceData = new URLSearchParams();
         this.comId = -1;
         this.mainCommentText = "";
         if(_comment === '') {
           this.toastState = 5;
-          this.message = "不允许空评论";
-          return ;
+            this.message = "不允许空评论";
+            this.toastState = -1;
+            return ;
         }
         sourceData.append('noteid', this.$route.params.noteid);
         sourceData.append('single', single);
@@ -191,11 +195,13 @@
               });
             }
             self.toastState = 5;
-            self.message = "评论成功";
+              self.message = "评论成功";
+              self.toastState = -1;
           }
           else {
             self.toastState = 5;
-            self.message = "评论失败";
+              self.message = "评论失败";
+              self.toastState = -1;
           }
         })
       },
@@ -223,8 +229,8 @@
       }
     },
     components:{
-      Gallery,
-      Toast
+        Gallery,
+        Toast
     },
   created : function () {
 //    this.$store.state.tabbar = false;

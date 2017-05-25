@@ -169,7 +169,7 @@
     transform: translateY(0);
 }
 .up-enter-active {
-  transition: all .5s ease;
+  transition: all .2s ease;
 }
 .up-enter {
   transform: translateY(200%);

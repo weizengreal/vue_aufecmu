@@ -12,13 +12,15 @@ import Find from './components/Find.vue'
 import Detail from './components/Detail.vue'
 import Publish from './components/Publish.vue'
 import NotFound from './components/404.vue'
-import { WechatPlugin } from 'vux'
+import { WechatPlugin , ToastPlugin } from 'vux'
+
 
 import "weui/dist/style/weui.css"
 
 
 Vue.use(VueRouter);
 Vue.use(WechatPlugin);
+Vue.use(ToastPlugin);
 Axios.default.baseURI="https://api.aufe.vip/xyq/";
 
 
@@ -107,6 +109,8 @@ var app = new Vue({
       var auth = true;
       Axios.default.baseURI="https://api.aufe.vip/xyqdev/";
       Axios.default.access_token = "$2y$10$GZIXZ0fw2UFQG47qBRqFHetwlm/1i4NIfgB8VW/xA5MBjxHIHkpVu";
+        window['localStorage']['headimgurl']='http://wx.qlogo.cn/mmopen/icmQ48CnYice8MUpvmcQF6yDzZqVjcypYvcDyCrff1L3np3flwV1gPn39tUHibhaWzrbqLt5YPK1frHB6qwnzrQV4nZduemCqLp/0';
+        window['localStorage']['nickname']='Lego';
     }
     // 初始化分享
     const self = this,sourceData = new URLSearchParams();
