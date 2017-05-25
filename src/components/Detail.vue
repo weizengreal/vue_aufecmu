@@ -84,7 +84,7 @@
                     <div class="clear reply-show">
                       <div class="reply-com-txt fl"><span class="name">{{ it.nickname }}</span>
                         <span style="color:#aeaeae">回复</span>
-                        <span class="name">{{ item.nickname }}</span><span>: </span> <span class="txt">{{ it.comment }}</span>
+                        <span class="name">{{ item.noteName }}</span><span>: </span> <span class="txt">{{ it.comment }}</span>
                       </div>
                     </div>
                     <div class="reply-area"><span class="time">{{ it.time }}</span><span
