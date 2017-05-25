@@ -40,7 +40,10 @@
       </ul>
 
     </div>
-    <loadmore :state="loadState"></loadmore>
+    <!--<loadmore :state="loadState"></loadmore>-->
+    <load-more v-show="this.findStore.findData[this.findType].loadState === 1" :tip="'正在加载'"></load-more>
+    <load-more v-show="this.findStore.findData[this.findType].loadState === 2" :show-loading="false" :tip="'到底啦'"></load-more>
+    <load-more v-show="this.findStore.findData[this.findType].loadState === 3" :show-loading="false" :tip="'暂无数据'"></load-more>
     <toast :toast="toastState" :message="message"></toast>
   </div>
 </template>
@@ -49,7 +52,7 @@
 
   import Vue from 'vue';
   import Axios from "axios";
-  import Loadmore from "../templete/Loadmore.vue";
+  import { LoadMore } from 'vux';
   import Toast from "../templete/toast.vue";
   const infiniteScroll =  require('vue-infinite-scroll');
   Vue.use(infiniteScroll);
@@ -66,8 +69,7 @@
           noteImgClass : "noteImgInfo1",
           findStore : this.$store.state,
           isPublish : true,
-            findType : this.$route.params.sign,
-            loadState : 1
+          findType : this.$route.params.sign
         }
     },
     methods : {
@@ -82,6 +84,7 @@
         // 状态码等于1，可以动态加载
           console.log("findType:"+this.findType);
           console.log(this.findStore.findData[this.findType].loadState);
+          console.log('loadState', this.findStore.findData[this.findType].loadState);
         if(this.findStore.findData[this.findType].loadState === 1) {
             this.$store.dispatch("getFindData",this.findType);
             this.findStore.findData[this.findType].loadState = 2;
@@ -95,7 +98,7 @@
       }
     },
     components : {
-      Loadmore,
+      LoadMore,
       Toast
     },
     watch : {
