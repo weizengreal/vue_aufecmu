@@ -79,7 +79,6 @@ var app = new Vue({
     console.log("初始化应用配置");
     // 初始化权限配置
     // 1、初始化权限
-    console.log(isProduction);
     if (isProduction) {
       var auth = true;
       try {
@@ -90,12 +89,12 @@ var app = new Vue({
         else {
           // 设置accessToken超时
           Axios.default.access_token = "";
-            auth = false;
+          auth = false;
         }
       } catch (e) {
         // 设置accessToken超时
         Axios.default.access_token = "";
-          auth = false;
+        auth = false;
       }
       if(!auth) {
           var url = encodeURIComponent("http://wx.aufe.vip/aufecmu_v4/xyq?redirectUri="+encodeURIComponent(window.location.href));
@@ -103,7 +102,9 @@ var app = new Vue({
               +'&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect';
       }
     } else {
-      console.log('deving');
+      var auth = true;
+      Axios.default.baseURI="https://api.aufe.vip/xyqdev/";
+      Axios.default.access_token = "$2y$10$GZIXZ0fw2UFQG47qBRqFHetwlm/1i4NIfgB8VW/xA5MBjxHIHkpVu";      
     }
     // 初始化分享
     const self = this,sourceData = new URLSearchParams();
