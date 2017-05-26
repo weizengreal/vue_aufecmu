@@ -22,7 +22,6 @@
                 </div>
                 <input id="picUploader" type="file" style="display: none" accept="image/*" multiple="multiple" @change="uploadImg">
             </div>
-            <toast :toast="toastState" :message="message"></toast>
         </div>
     </transition>
 </template>
@@ -30,7 +29,7 @@
 <script>
     import upload from '../utils/uploader';
     import Axios from "axios";
-    import Toast from "../templete/toast.vue";
+    import  { Toast } from 'vux';
     export default {
         name: 'publish',
         data() {
@@ -39,8 +38,6 @@
                 content: '',
                 allowPicNum: 9,
                 uploadFlag: false,
-                toastState : 3,
-                message : "kong",
             }
         },
         components : {
@@ -82,13 +79,17 @@
             },
             publish: function() {
                 if (this.uploadFlag) {
-                    this.toastState = 2;
-                    this.message = "正在上传图片";
+                    this.$vux.toast.show({
+                        'text' : '正在上传图片',
+                        'type' : 'text'
+                    });
                     return false;
                 }
                 if(this.content === "") {
-                    this.toastState = 5;
-                    this.message = "内容不能为空";
+                    this.$vux.toast.show({
+                        'text' : '内容不能为空',
+                        'type' : 'text'
+                    });
                     return false;
                 }
                 let picList = {};
@@ -111,8 +112,10 @@
                         self.$router.go(-1);
                     }
                     else {
-                        self.toastState=5;
-                        self.message="发帖失败";
+                        this.$vux.toast.show({
+                            'text' : '发帖失败',
+                            'type' : 'text'
+                        });
                     }
                 });
             },

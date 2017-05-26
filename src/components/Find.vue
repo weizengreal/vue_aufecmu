@@ -43,7 +43,6 @@
     <load-more v-show="state === 1" :tip="'正在加载'"></load-more>
     <load-more v-show="state === 2" :show-loading="false" :tip="'到底啦'"></load-more>
     <load-more v-show="state === 3" :show-loading="false" :tip="'暂无数据'"></load-more>
-    <toast :toast="toastState" :message="message"></toast>
   </div>
 </template>
 
@@ -52,7 +51,8 @@
   import Vue from 'vue';
   import Axios from "axios";
   import { LoadMore } from 'vux';
-  import Toast from "../templete/toast.vue";
+//  import Toast from "../templete/toast.vue";
+  import  { Toast } from 'vux';
   const infiniteScroll =  require('vue-infinite-scroll');
   Vue.use(infiniteScroll);
   export default{
@@ -62,7 +62,6 @@
         return {
           noteData : [],
           state : 2,
-          toastState : 3,
           message : "",
           noteImgData : {},
           noteImgClass : "noteImgInfo1",
@@ -114,31 +113,35 @@
                 break;
               }
               case -1: {
+                  this.$vux.toast.show({
+                      'text' : '网络错误',
+                      'type' : 'text'
+                  });
                 this.state = 3;
-                  this.toastState = 5;
-                  this.toastState = -1;
-                this.message = "网络错误";
                 break;
               }
               case -2: {
                 this.state = 3;
-                this.toastState = 1;
-                  this.toastState = -1;
-                  this.message = "请刷新再试";
+                  this.$vux.toast.show({
+                      'text' : '请刷新再试',
+                      'type' : 'text'
+                  });
                 break;
               }
               case -4: {
                 this.state = 3;
-                this.toastState = 1;
-                  this.toastState = -1;
-                  this.message = "主题不存在";
+                  this.$vux.toast.show({
+                      'text' : '主题不存在',
+                      'type' : 'text'
+                  });
                 break;
               }
               default: {
                 this.state = 3;
-                this.toastState = 1;
-                  this.toastState = -1;
-                  this.message = "网络错误3";
+                  this.$vux.toast.show({
+                      'text' : '网络错误3',
+                      'type' : 'text'
+                  });
               }
             }
         },

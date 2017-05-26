@@ -15,7 +15,7 @@ import NotFound from './components/404.vue'
 import { WechatPlugin , ToastPlugin } from 'vux'
 
 
-import "weui/dist/style/weui.css"
+// import "weui/dist/style/weui.css"
 
 
 Vue.use(VueRouter);
@@ -113,7 +113,32 @@ var app = new Vue({
         window['localStorage']['nickname']='Lego';
     }
     // 初始化分享
-    const self = this,sourceData = new URLSearchParams();
+    const self = this,wx = this.$wechat,sourceData = new URLSearchParams();
     sourceData.append('url', encodeURIComponent(location.href.split('#')[0]));
+      Axios.post('https://api.aufe.vip/jssdk/zacShare',sourceData).then(function (response) {
+          const data = response.data;
+          wx.config({
+              debug: false,
+
+              appId: data.appId,
+
+              timestamp: data.timestamp,
+
+              nonceStr: data.nonceStr,
+
+              signature: data.signature,
+              jsApiList: [
+                  'onMenuShareTimeline',
+                  'onMenuShareAppMessage',
+                  'onMenuShareQQ',
+                  'onMenuShareWeibo',
+                  'onMenuShareQZone',
+                  'previewImage',
+              ]
+          });
+      })
+
+
+
   }
 });

@@ -27,8 +27,8 @@
           <span class="main-content">{{ thisNoteData.content }}</span>
           <span class="topic_more">...</span>
         </div>
-        <div v-if="thisNoteData.imgInfo != null" class="topic-m-img">
-          <img v-for="it in thisNoteData.imgInfo" :src="it" @click="previewImg(it)" >
+        <div v-if="thisNoteData.imgInfo != null" class="topic-m-img" >
+          <img v-for="(it , _index) in thisNoteData.imgInfo" :src="it" @click="previewImg(_index,$event)" >
         </div>
         <div v-else class="topic-m-img"></div>
         <div class="top-m-header">
@@ -105,27 +105,23 @@
         </div>
       </div>
     </div>
-    <gallery ref="Gallery" :bgImg="bgImg"></gallery>
-    <!--<toast :toast="toastState" :message="message"></toast>-->
+      <previewer :list="list" ref="previewer"></previewer>
   </div>
 </template>
 
 <script>
 
   import Axios from "axios"
-  import Gallery from '../templete/gallery.vue'
-//  import Toast from "../templete/toast.vue";
-  import  { Toast } from 'vux';
+  import  { Toast,Previewer } from 'vux'; //templete/toast.vue
   export default {
     data() {
         return {
           thisNoteData : [],
           bgImg:"",
           comId: -1,
-          toastState : 3,
-          message : "温馨提示",
           commentText : "",
-          mainCommentText : ""
+          mainCommentText : "",
+            list : []
         };
     },
     methods : {
@@ -142,9 +138,24 @@
       goPublish : function () {
         this.$router.push("/publish");
       },
-      previewImg : function (bgImg) {
-          this.bgImg = bgImg;
-          this.$refs.Gallery.showImg();
+      previewImg : function (index,event) {
+
+//          console.log(this.$wechat);
+//          console.log(event);
+
+          this.$wechat.previewImage({
+              current : this.list[index],
+              urls : this.list
+          });
+
+
+//          return ;
+//          // 点击任意一个都将初始化所有list的w和h值
+//          this.list[index].w='400';
+//          this.list[index].h='400';
+//          this.$refs.previewer.show(index);
+//          this.bgImg = bgImg;
+//          this.$refs.Gallery.showImg();
       },
       clickReply : function (comId) {
           this.commentText="";
@@ -156,17 +167,15 @@
       },
       comment : function (single, owner ,noteName,index) {
           // 现在的成功提示存在bug，我的组件那边使用watch，但是两次同时调用一个组件的时候值不变所以watch不到，想使用vux解决这个问题
-          // TODO 这里希望调用方法： this.$vux.toast.text('hello', 'top');
-//          this.$vux.toast.text('hello', 'top');
-//          return ;
           // 1：隐藏输入框 2：判断数据是否合法 3：发送数据 4：操作反馈 5：前端渲染
         var _comment = single === 0 ? this.mainCommentText : this.commentText,self = this,sourceData = new URLSearchParams();
         this.comId = -1;
         this.mainCommentText = "";
         if(_comment === '') {
-          this.toastState = 5;
-            this.message = "不允许空评论";
-            this.toastState = -1;
+            this.$vux.toast.show({
+                'text' : '不允许空评论',
+                'type' : 'text'
+            });
             return ;
         }
         sourceData.append('noteid', this.$route.params.noteid);
@@ -196,14 +205,16 @@
                 'time' : '刚刚'
               });
             }
-            self.toastState = 5;
-              self.message = "评论成功";
-              self.toastState = -1;
+              self.$vux.toast.show({
+                  'text' : '评论成功',
+                  'type' : 'text'
+              });
           }
           else {
-            self.toastState = 5;
-              self.message = "评论失败";
-              self.toastState = -1;
+              self.$vux.toast.show({
+                  'text' : '评论失败',
+                  'type' : 'text'
+              });
           }
         })
       },
@@ -231,8 +242,9 @@
       }
     },
     components:{
-        Gallery,
-        Toast
+//        Gallery,
+        Toast,
+        Previewer
     },
   created : function () {
 //    this.$store.state.tabbar = false;
@@ -243,6 +255,10 @@
       }
     }).then(function (response) {
       self.thisNoteData = response.data.data;
+      var img = response.data.data.imgInfo;
+      for (var index in img) {
+          self.list.push(img[index]);
+      }
     })
 
   }
