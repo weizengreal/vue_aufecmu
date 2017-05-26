@@ -157,6 +157,7 @@
       comment : function (single, owner ,noteName,index) {
           // 现在的成功提示存在bug，我的组件那边使用watch，但是两次同时调用一个组件的时候值不变所以watch不到，想使用vux解决这个问题
           // TODO 这里希望调用方法： this.$vux.toast.text('hello', 'top');
+          this.$vux.toast.text('hello', 'top');
           // 1：隐藏输入框 2：判断数据是否合法 3：发送数据 4：操作反馈 5：前端渲染
         var _comment = single === 0 ? this.mainCommentText : this.commentText,self = this,sourceData = new URLSearchParams();
         this.comId = -1;
