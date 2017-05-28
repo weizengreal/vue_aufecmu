@@ -29,7 +29,7 @@ Axios.default.baseURI="https://api.aufe.vip/xyqdev/";
 
 const routes = [{
   path : "/",
-    redirect: '/find/find'
+    redirect: '/theme'
 },{
   path : "/theme",
   component : Theme,
@@ -71,15 +71,6 @@ var app = new Vue({
   store,
   ...App,
   created : function () {
-    Axios({
-      method: 'post',
-      url: '//api.aufe.vip/jssdk/zacShare',
-      data: JSON.stringify({
-        url: `${window.location.host}?${window.location.href.split('?')[1]}`,
-      })
-    }).then(res => {
-      this.$wechat.config(res.data)
-    })
     console.log("初始化应用配置");
     // 初始化权限配置
     // 1、初始化权限
@@ -209,7 +200,6 @@ var app = new Vue({
                   }
               });
 
-              // wx.hideAllNonBaseMenuItem();
 
 
           });
