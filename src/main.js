@@ -111,13 +111,9 @@ var app = new Vue({
           const data = response.data;
           wx.config({
               debug: false,
-
               appId: data.appId,
-
               timestamp: data.timestamp,
-
               nonceStr: data.nonceStr,
-
               signature: data.signature,
               jsApiList: [
                   'onMenuShareTimeline',
