@@ -21,7 +21,7 @@ import { WechatPlugin , ToastPlugin } from 'vux'
 Vue.use(VueRouter);
 Vue.use(WechatPlugin);
 Vue.use(ToastPlugin);
-Axios.default.baseURI="https://api.aufe.vip/xyq/";
+Axios.default.baseURI="https://api.aufe.vip/xyqdev/";
 
 
 
