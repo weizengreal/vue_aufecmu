@@ -33,6 +33,7 @@
     watch : {
       '$route' (to, from) {
         // 对路由变化作出响应...
+          this.$wechat.showAllNonBaseMenuItem();
         this.$store.state.tabbar = true;
         if(to.path === "/theme") {
           // 跳转到主题帖子
@@ -43,7 +44,11 @@
           this.themeImg = require("../assets/images/theme_click.png");
         }
         else if(to.path.indexOf("/detail") === 0) {
-          this.$store.state.tabbar = false;
+            this.$store.state.tabbar = false;
+        }
+        else if(to.path.indexOf("/publish") === 0) {
+            // 禁止微信分享
+            this.$wechat.hideAllNonBaseMenuItem();
         }
         else {
           // 默认显示为发现
@@ -56,7 +61,7 @@
       }
     },
     mounted : function () {
-      this.$store.state.tabbar = true;
+        this.$store.state.tabbar = true;
       if(location.href.split("#/")[1].indexOf("theme") === 0) {
 //        this.findClass = {"weui-bar__item_on" : false};
 //        this.themeClass = {"weui-bar__item_on" : true};
@@ -72,7 +77,8 @@
         this.$store.state.tabbar = false;
         this.clickTabbar = 2;
         this.findImg = require("../assets/images/find_click.png");
-        this.themeImg = require("../assets/images/theme.png");}
+        this.themeImg = require("../assets/images/theme.png");
+      }
       else {
 //        this.findClass = {"weui-bar__item_on" : true};
 //        this.themeClass = {"weui-bar__item_on" : false};
