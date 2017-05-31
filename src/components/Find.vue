@@ -178,9 +178,9 @@
           // 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，
           // 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。
           // 可以访问组件实例 `this`
-          this.themeImg = require('../assets/icon/'+this.findType+'.png');
           this.noteData=[];
           this.findType = to.params.sign;
+          this.themeImg = require('../assets/icon/'+this.findType+'.png');
           if(typeof this.findStore.findData[this.findType] !== "undefined") {
               for (var index in this.findStore.findData[this.findType].data) {
                   this.noteData.push(this.findStore.findData[this.findType].data[index]);
@@ -214,15 +214,15 @@
 
   .noteImgInfo2 {
     /*width: 270px;*/
-    max-height: 240px;
-    max-width: 240px;
+    max-height: 200px;
+    max-width: 200px;
   }
 
     .theme_img {
         width: 22px;
         height: 22px;
         float: left;
-        margin-top: 4px;
+        margin-top: 2px;
         margin-right: 3px;
     }
 </style>

@@ -52,7 +52,7 @@
             <div class="theme_item_arrow"></div>
         </div>
 
-        <div class="theme_item" @click="goFind('officialTucao')">
+        <div class="theme_item weui-cell_access" @click="goFind('officialTucao')">
             <div class="theme_item_img">
                 <img src="../assets/icon/officialTucao.png">
             </div>
