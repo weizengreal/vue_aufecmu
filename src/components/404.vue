@@ -1,6 +1,5 @@
 <template>
-  <div>This is 404 page!</div>
-
+    <div>This is 404 page!</div>
 </template>
 
 <script>
@@ -20,6 +19,6 @@ export default{
 }
 </script>
 
-<style>
+<style >
 
 </style>
