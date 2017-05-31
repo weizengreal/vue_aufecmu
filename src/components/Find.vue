@@ -2,6 +2,7 @@
   <div class="topic_wrapper wrap">
     <div class="theme_header" id="group">
       <div class="fl theme_header_left">
+          <img class="theme_img" :src="themeImg">
         <span class="fl">{{findStore.findData[findType].themeName}}</span>
       </div>
       <a v-if="isPublish" class="fr create_a" @click="goPublish"><span>发表</span></a>
@@ -51,7 +52,6 @@
   import Vue from 'vue';
   import Axios from "axios";
   import { LoadMore } from 'vux';
-//  import Toast from "../templete/toast.vue";
   import  { Toast } from 'vux';
   const infiniteScroll =  require('vue-infinite-scroll');
   Vue.use(infiniteScroll);
@@ -68,6 +68,7 @@
           findStore : this.$store.state,
           isPublish : true,
           findType : this.$route.params.sign,
+            themeImg : ''
         }
     },
     methods : {
@@ -154,6 +155,7 @@
         }
     },
     created : function () {
+        this.themeImg = require('../assets/icon/'+this.findType+'.png');
       // 1.先从vuex中加载相关数据，需要判断当前路由参数是否正确
       if(typeof this.findStore.findData[this.findType] !== "undefined") {
           for (var index in this.findStore.findData[this.findType].data) {
@@ -176,6 +178,7 @@
           // 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，
           // 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。
           // 可以访问组件实例 `this`
+          this.themeImg = require('../assets/icon/'+this.findType+'.png');
           this.noteData=[];
           this.findType = to.params.sign;
           if(typeof this.findStore.findData[this.findType] !== "undefined") {
@@ -200,8 +203,8 @@
 </script>
 
 <style>
-  @import "../assets/_css/main.css";
-  @import "../assets/_css/join_group.css";
+  @import "../assets/css/main.css";
+  @import "../assets/css/join_group.css";
 
   .noteImgInfo1 {
     width: 90px;
@@ -211,7 +214,15 @@
 
   .noteImgInfo2 {
     /*width: 270px;*/
-    max-height: 270px;
-    max-width: 270px;
+    max-height: 240px;
+    max-width: 240px;
   }
+
+    .theme_img {
+        width: 22px;
+        height: 22px;
+        float: left;
+        margin-top: 4px;
+        margin-right: 3px;
+    }
 </style>

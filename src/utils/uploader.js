@@ -1,4 +1,4 @@
-import axios from 'Axios';
+import axios from 'axios';
 
 const uploader = function(file) {
     return new Promise((resolve, reject) => {
