@@ -20,7 +20,9 @@
           </p>
           <div class="topic-p">
             <p class="f-3-16">{{ thisNoteData.nickname }}</p>
-            <p class="f-g-11 pt4">{{ thisNoteData.signtime }}</p>
+            <p class="f-g-11 pt4">{{ thisNoteData.signtime }}
+              <span style="float: right;" v-show="thisNoteData.isOwn" @click="deleteNote">删除</span>
+            </p>
           </div>
         </div>
         <div class="f-3-16 topic-mid-div js-topictxt" data-type="allow">
@@ -239,7 +241,19 @@
               }
           }
         })
-      }
+      },
+        deleteNote :  function () {
+            var self = this,sourceData = new URLSearchParams();
+            sourceData.append('noteid', this.$route.params.noteid);
+            Axios.post(Axios.default.baseURI+"deleteNote?access_token="+Axios.default.access_token,sourceData)
+                .then(function (response) {
+                if(response.data.status === 1) {
+                    // 将该记录删除并返回上一层，逻辑上这里还需要删除信息流中该条数据
+//                    self.returnTofind();
+                    console.log('返回上一层');
+                }
+            })
+        }
     },
     components:{
 //        Gallery,

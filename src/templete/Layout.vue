@@ -3,13 +3,13 @@
   <div class="weui-tabbar" style="position: fixed" v-if="this.$store.state.tabbar">
     <router-link to="/theme" href="javascript:;"  class="weui-tabbar__item" style="padding: 2px 0 0;">
                     <span style="display: inline-block;position: relative;">
-                        <img v-bind:src="this.themeImg" alt="" class="weui-tabbar__icon" style="width: 25px;height: 25px;">
+                        <img v-bind:src="this.themeImg" alt="" class="weui-tabbar__icon" style="width: 22px;height: 22px;">
                     </span>
       <p class="weui-tabbar__label" v-bind:style="{ 'color' : clickTabbar == 2 ? '#000' : '#999999' }" >主题</p>
     </router-link>
     <router-link to="/find/find" href="javascript:;"  class="weui-tabbar__item" style="padding: 2px 0 0;">
                     <span style="display: inline-block;position: relative;">
-                        <img v-bind:src="this.findImg" alt="" class="weui-tabbar__icon" style="width: 25px;height: 25px;">
+                        <img v-bind:src="this.findImg" alt="" class="weui-tabbar__icon" style="width: 22px;height: 22px;">
                     </span>
       <p class="weui-tabbar__label" v-bind:style="{ 'color' : clickTabbar == 1 ? '#000' : '#999999' }" style="line-height: 1.5">发现</p>
     </router-link>
