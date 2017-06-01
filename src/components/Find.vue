@@ -34,7 +34,7 @@
             <div class="pay-list" style="padding-left: 0 !important;">
               <span class="pay-like">{{ item.zan }}</span>
               <span class="pay-reply">{{ item.comcount}}</span>
-              <span v-if="findType != 'find'" style="float: right;margin-right: 0;font-size: 1.2rem;">{{ item.theme }}</span>
+              <span v-if="findType == 'find'" style="float: right;margin-right: 0;font-size: 1.2rem;">{{ item.theme }}</span>
             </div>
           </div>
         </li>
@@ -131,7 +131,7 @@
               }
               case -4: {
                 this.state = 3;
-                  this.$vux.toast.show({
+                this.$vux.toast.show({
                       'text' : '主题不存在',
                       'type' : 'text'
                   });
