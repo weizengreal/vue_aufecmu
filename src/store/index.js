@@ -26,7 +26,7 @@ const state = {
       page : 1,
       data : [],
       loadState : 1,
-        themeName : '失物招领'
+        themeName : '龙子湖失物招领处'
     },
     // 表白区
     love  : {

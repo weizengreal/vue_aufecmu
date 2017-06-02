@@ -249,10 +249,35 @@
                 .then(function (response) {
                 if(response.data.status === 1) {
                     // 将该记录删除并返回上一层，逻辑上这里还需要删除信息流中该条数据
-//                    self.returnTofind();
-                    console.log('返回上一层');
+                    self.clearItem();
+                    self.returnTofind();
                 }
             })
+        },
+        clearItem : function () {
+            /*
+            * 这里直接简单粗暴的将数据清空，原因很简单：
+            * 由于接口原因find数据和该type下的该数据noteid不相同，同样的数据未能唯一标识
+            * */
+            this.$store.state.findData.find.data=[];
+            this.$store.state.findData.find.page=1;
+            this.$store.state.findData.find.loadState=1;
+            this.$store.state.findData[this.thisNoteData.type].data=[];
+            this.$store.state.findData[this.thisNoteData.type].page=1;
+            this.$store.state.findData[this.thisNoteData.type].loadState=1;
+            // 1、将当前 find 下的该数据删除，若失败将find数据清空 2、将该type的数据清空
+//            const find = this.$store.state.findData.find;
+//            var boolVar = false;
+//            for(var i in find) {
+//                if(find.data[i].noteid === noteid) {
+//
+//                    return true;
+//                }
+//            }
+//            if(!boolVar) {
+//                // 清空find数据
+//            }
+            // 清空该type数据
         }
     },
     components:{
