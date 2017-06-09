@@ -156,10 +156,11 @@
     },
     created : function () {
         this.themeImg = require('../assets/icon/'+this.findType+'.png');
+        console.log("findtype:"+this.findStore.findData[this.findType].loadState);
       // 1.先从vuex中加载相关数据，需要判断当前路由参数是否正确
       if(typeof this.findStore.findData[this.findType] !== "undefined") {
           for (var index in this.findStore.findData[this.findType].data) {
-            this.noteData.push(this.findStore.findData[this.findType].data[index]);
+              this.noteData.push(this.findStore.findData[this.findType].data[index]);
           }
       }
       else {
