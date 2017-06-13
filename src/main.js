@@ -104,6 +104,7 @@ var app = new Vue({
         window['localStorage']['nickname']='Lego';
     }
     // 初始化分享
+
     const self = this,wx = this.$wechat,sourceData = new URLSearchParams(),
         title='安财人的聚集地-连接十万安财人',desc='我们身处世界各地，我们是彼此最坚强的后盾。',imgUrl='http://wx.aufe.vip/static/share.jpg';
     sourceData.append('url', encodeURIComponent(location.href.split('#')[0]));
@@ -201,6 +202,7 @@ var app = new Vue({
           });
 
       })
+
 
 
 

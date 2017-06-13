@@ -73,7 +73,6 @@ export default{
   },
   methods : {
     goFind : function (id) {
-        console.log('dwa');
       this.$router.push({path : "/find/"+id});
     }
   }

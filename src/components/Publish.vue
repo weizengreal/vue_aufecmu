@@ -112,7 +112,7 @@
                         self.$router.go(-1);
                     }
                     else {
-                        this.$vux.toast.show({
+                        self.$vux.toast.show({
                             'text' : '发帖失败',
                             'type' : 'text'
                         });

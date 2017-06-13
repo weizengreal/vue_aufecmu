@@ -24,5 +24,8 @@ export default {
   initTheme( { commit } ) {
     // 获得主题
 
-  }
+  },
+    // savePosition({ commit , state } , findType , positionY) {
+    //     state.findData[findType].savePosition = positionY;
+    // }
 };
