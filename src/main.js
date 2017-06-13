@@ -73,7 +73,7 @@ var app = new Vue({
   created : function () {
     console.log("初始化应用配置");
     // 初始化权限配置
-    // 1、初始化权限
+    // 1、初始化权限（设置一个版本用于生产环境下的开放体验demo）
     if (isProduction) {
       var auth = true;
       try {
@@ -92,14 +92,22 @@ var app = new Vue({
         auth = false;
       }
       if(!auth) {
-          var url = encodeURIComponent("http://wx.aufe.vip/aufecmu_v4/xyq?redirectUri="+encodeURIComponent(window.location.href));
-          window.location.href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5aba40d737e98b5d&redirect_uri='+url
-              +'&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect';
+          if(window.location.host === 'job.woai662.com') {
+              Axios.default.baseURI="https://api.aufe.vip/xyqdev/";
+              Axios.default.access_token = "$2y$10$/I85dLrDKFQo1wcnePvKdOoEPFqp4DgA5lyCXqu.Wzot3Qbu1z3OO";
+              window['localStorage']['headimgurl']='http://wx.qlogo.cn/mmopen/vi_32/gEvn4xqTyhJ2G3HppwQcMRPjicicR824cicpy5PeaRHJC6GeCY91ZyVgdCoO4LhRrnYCOqsCX1uU97yxmw0afVLxw/0';
+              window['localStorage']['nickname']='郑伟';
+          }
+          else {
+              var url = encodeURIComponent("http://wx.aufe.vip/aufecmu_v4/xyq?redirectUri="+encodeURIComponent(window.location.href));
+              window.location.href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5aba40d737e98b5d&redirect_uri='+url
+                  +'&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect';
+          }
       }
     } else {
-      var auth = true;
-      Axios.default.baseURI="https://api.aufe.vip/xyqdev/";
-      Axios.default.access_token = "$2y$10$GZIXZ0fw2UFQG47qBRqFHetwlm/1i4NIfgB8VW/xA5MBjxHIHkpVu";
+        var auth = true;
+        Axios.default.baseURI="https://api.aufe.vip/xyqdev/";
+        Axios.default.access_token = "$2y$10$GZIXZ0fw2UFQG47qBRqFHetwlm/1i4NIfgB8VW/xA5MBjxHIHkpVu";
         window['localStorage']['headimgurl']='http://wx.qlogo.cn/mmopen/icmQ48CnYice8MUpvmcQF6yDzZqVjcypYvcDyCrff1L3np3flwV1gPn39tUHibhaWzrbqLt5YPK1frHB6qwnzrQV4nZduemCqLp/0';
         window['localStorage']['nickname']='Lego';
     }
