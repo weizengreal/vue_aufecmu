@@ -272,7 +272,12 @@
                   self.list.push(img[index]);
               }
               // 重新注册分享、允许用户分享到指定 detial ，参数使用 get 的 detail
-              shareReady(wx,nowHref,self.thisNoteData.content,'点击查看详情');
+              if(img.length === 0) {
+                  shareReady(wx,nowHref,self.thisNoteData.content,'点击查看详情');
+              }
+              else {
+                  shareReady(wx,nowHref,self.thisNoteData.content,'点击查看详情',img[0]+'?imageView2/1/w/90/h/90');
+              }
           });
       }
   }

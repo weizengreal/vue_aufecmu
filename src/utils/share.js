@@ -2,11 +2,11 @@
  * Created by zhengwei on 2017/6/23.
  */
 
-const shareReady = function (wx,link,title,desc) {
+const shareReady = function (wx,link,title,desc,imgUrl) {
     link = link === undefined || link === '' ? location.href : link;
     title = title === undefined || title === '' ? '安财人的聚集地-连接十万安财人' : title;
     desc = desc === undefined || desc === '' ? '我们身处世界各地，我们是彼此最坚强的后盾。' : desc;
-    const imgUrl='http://wx.aufe.vip/static/share.jpg';
+    imgUrl = imgUrl === undefined || imgUrl === '' ? 'http://wx.aufe.vip/static/share.jpg' : imgUrl;
     wx.ready(function () {
 
         wx.onMenuShareTimeline({
