@@ -43,6 +43,9 @@ export default {
 
   [types.THEME_CONF] ( state , themeData ) {
     console.log(themeData);
-  }
+  },
+    [types.SAVE_POSITION] ( state , positionData ) {
+        state.findData[positionData.findType].savePosition = positionData.positionY;
+    }
 
 };

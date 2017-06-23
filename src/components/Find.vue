@@ -156,7 +156,7 @@
     },
     created : function () {
         this.themeImg = require('../assets/icon/'+this.findType+'.png');
-        console.log("findtype:"+this.findStore.findData[this.findType].loadState);
+        this.state = this.$store.state.findData[this.findType].loadState;
       // 1.先从vuex中加载相关数据，需要判断当前路由参数是否正确
       if(typeof this.findStore.findData[this.findType] !== "undefined") {
           for (var index in this.findStore.findData[this.findType].data) {
@@ -174,14 +174,35 @@
           this.isPublish = true;
       }
     },
+      beforeRouteLeave(to, from, next) {
+        console.log(from);
+          let position = window.scrollY;
+//          console.log(position);
+          this.$store.commit('SAVE_POSITION', { positionY : position,findType : this.findType }); //离开路由时把位置存起来
+
+//          this.$store.dispatch("getFindData",this.findType);
+          console.log('beforeRouteLeave');
+          next();
+      },
+      mounted () {
+//          this.$nextTick(function(){
+//              let position = this.$store.state.position //返回页面取出来
+//              window.scroll(0, position)
+//          })
+          window.scroll(0, this.findStore.findData[this.findType].savePosition);
+          console.log('mounted  savePosition');
+      },
       beforeRouteUpdate (to, from, next) {
           // 在当前路由改变，但是该组件被复用时调用
           // 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，
           // 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。
           // 可以访问组件实例 `this`
+          // 需要初始化当前对象的state值用于显示最下方的loadView
           this.noteData=[];
           this.findType = to.params.sign;
           this.themeImg = require('../assets/icon/'+this.findType+'.png');
+          this.state = this.findStore.findData[this.findType].loadState;
+
           if(typeof this.findStore.findData[this.findType] !== "undefined") {
               for (var index in this.findStore.findData[this.findType].data) {
                   this.noteData.push(this.findStore.findData[this.findType].data[index]);

@@ -17,6 +17,7 @@
 </template>
 
 <script>
+    import shareReady from '../utils/share';
   export default {
     name: 'layout',
     data() {
@@ -32,31 +33,30 @@
     },
     watch : {
       '$route' (to, from) {
-        // 对路由变化作出响应...
-          this.$wechat.showAllNonBaseMenuItem();
-        this.$store.state.tabbar = true;
+            // 对路由变化作出响应...
+          const wx = this.$wechat,shareUrl='wx.aufe.vip/aufecmu_v4/share';
+          wx.showAllNonBaseMenuItem();
+          this.$store.state.tabbar = true;
         if(to.path === "/theme") {
-          // 跳转到主题帖子
-//          this.findClass = {"weui-bar__item_on" : false};
-//          this.themeClass = {"weui-bar__item_on" : true};
-          this.clickTabbar = 2;
-          this.findImg = require("../assets/images/find.png");
-          this.themeImg = require("../assets/images/theme_click.png");
+            // 跳转到主题帖子
+            this.clickTabbar = 2;
+            this.findImg = require("../assets/images/find.png");
+            this.themeImg = require("../assets/images/theme_click.png");
+            shareReady(wx);
         }
         else if(to.path.indexOf("/detail") === 0) {
             this.$store.state.tabbar = false;
         }
         else if(to.path.indexOf("/publish") === 0) {
             // 禁止微信分享
-            this.$wechat.hideAllNonBaseMenuItem();
+            wx.hideAllNonBaseMenuItem();
         }
         else {
-          // 默认显示为发现
-//          this.findClass = {"weui-bar__item_on" : true};
-//          this.themeClass = {"weui-bar__item_on" : false};
-          this.clickTabbar = 1;
-          this.findImg = require("../assets/images/find_click.png");
-          this.themeImg = require("../assets/images/theme.png");
+            // 默认显示为发现
+            this.clickTabbar = 1;
+            this.findImg = require("../assets/images/find_click.png");
+            this.themeImg = require("../assets/images/theme.png");
+            shareReady(wx);
         }
       }
     },

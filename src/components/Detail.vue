@@ -86,7 +86,7 @@
                     <div class="clear reply-show">
                       <div class="reply-com-txt fl"><span class="name">{{ it.nickname }}</span>
                         <span style="color:#aeaeae">回复</span>
-                        <span class="name">{{ item.noteName }}</span><span>: </span> <span class="txt">{{ it.comment }}</span>
+                        <span class="name">{{ it.noteName }}</span><span>: </span> <span class="txt">{{ it.comment }}</span>
                       </div>
                     </div>
                     <div class="reply-area"><span class="time">{{ it.time }}</span><span
@@ -115,193 +115,167 @@
 
   import Axios from "axios"
   import  { Toast,Previewer } from 'vux'; //templete/toast.vue
+  import shareReady from '../utils/share';
   export default {
-    data() {
-        return {
-          thisNoteData : [],
-          bgImg:"",
-          comId: -1,
-          commentText : "",
-          mainCommentText : "",
-            list : []
-        };
-    },
-    methods : {
-      returnTofind :function () {
-          if(location.href.indexOf("?from") === -1) {
-              // 默认直接返回上一层
-            this.$router.go(-1);
-          }
-          else {
-            // 检测是否由微信分享而来，如果是则需要将当前路由替换为如何路由，解决分享时返回上一层失败的bug
-            this.$router.replace("/find/"+this.thisNoteData.type);
-          }
+      data() {
+          return {
+              thisNoteData : [],
+              bgImg:"",
+              comId: -1,
+              commentText : "",
+              mainCommentText : "",
+              list : []
+          };
       },
-      goPublish : function () {
-        this.$router.push("/publish");
-      },
-      previewImg : function (index,event) {
-
-//          console.log(this.$wechat);
-//          console.log(event);
-
-          this.$wechat.previewImage({
-              current : this.list[index],
-              urls : this.list
-          });
-
-
-//          return ;
-//          // 点击任意一个都将初始化所有list的w和h值
-//          this.list[index].w='400';
-//          this.list[index].h='400';
-//          this.$refs.previewer.show(index);
-//          this.bgImg = bgImg;
-//          this.$refs.Gallery.showImg();
-      },
-      clickReply : function (comId) {
-          this.commentText="";
-          this.mainCommentText="";
-          this.comId = comId;
-      },
-      cancelReply : function () {
-          this.comId = -1;
-      },
-      comment : function (single, owner ,noteName,index) {
-          // 现在的成功提示存在bug，我的组件那边使用watch，但是两次同时调用一个组件的时候值不变所以watch不到，想使用vux解决这个问题
-          // 1：隐藏输入框 2：判断数据是否合法 3：发送数据 4：操作反馈 5：前端渲染
-        var _comment = single === 0 ? this.mainCommentText : this.commentText,self = this,sourceData = new URLSearchParams();
-        this.comId = -1;
-        this.mainCommentText = "";
-        if(_comment === '') {
-            this.$vux.toast.show({
-                'text' : '不允许空评论',
-                'type' : 'text'
-            });
-            return ;
-        }
-        sourceData.append('noteid', this.$route.params.noteid);
-        sourceData.append('single', single);
-        sourceData.append('owner', owner);
-        sourceData.append('comment', _comment);
-        Axios.post(Axios.default.baseURI+"createComment?access_token="+Axios.default.access_token,sourceData).then(function (response) {
-          console.log(response.data.data);
-          if(response.data.status === 1) {
-            if(single === 0) {
-              self.thisNoteData.comList.push({
-                'comment' : _comment,
-                'headimgurl' : window['localStorage']['headimgurl'],
-                'nickname' : window['localStorage']['nickname'],
-                'noteName' : noteName,
-                'isCom' : false,
-                'time' : '刚刚'
-              });
-            }
-            else {
-              self.thisNoteData.comList[index].repliedComment.push({
-                'comment' : _comment,
-                'headimgurl' : window['localStorage']['headimgurl'],
-                'nickname' : window['localStorage']['nickname'],
-                'noteName' : noteName,
-                'isCom' : false,
-                'time' : '刚刚'
-              });
-            }
-              self.$vux.toast.show({
-                  'text' : '评论成功',
-                  'type' : 'text'
-              });
-          }
-          else {
-              self.$vux.toast.show({
-                  'text' : '评论失败',
-                  'type' : 'text'
-              });
-          }
-        })
-      },
-      zan : function () {
-        var self = this,sourceData = new URLSearchParams();
-        sourceData.append('noteid', this.$route.params.noteid);
-        Axios.post(Axios.default.baseURI+"zan?access_token="+Axios.default.access_token,sourceData).then(function (response) {
-          if(response.data.status === 1) {
-              if(response.data.data.behave === 1) {
-                  self.thisNoteData.isZan = false;
-                  self.thisNoteData.zan++;
-                  self.thisNoteData.zanList.push({
-                    'headimgurl' : response.data.data.headimgurl
-                  })
+      methods : {
+          returnTofind :function () {
+              if(! this.$store.state.isShare ) {
+                  // 默认直接返回上一层
+                  this.$router.go(-1);
               }
               else {
-                self.thisNoteData.isZan = true;
-                self.thisNoteData.zan--;
-                self.thisNoteData.zanList.pop({
-                  'headimgurl' : response.data.data.headimgurl
-                });
+                  // 检测是否由微信分享而来，如果是则需要将当前路由替换为如何路由，解决分享时返回上一层失败的bug
+                  this.$router.replace("/find/"+this.thisNoteData.type);
               }
+          },
+          goPublish : function () {
+              this.$router.push("/publish");
+          },
+          previewImg : function (index,event) {
+              this.$wechat.previewImage({
+                  current : this.list[index],
+                  urls : this.list
+              });
+          },
+          clickReply : function (comId) {
+              this.commentText="";
+              this.mainCommentText="";
+              this.comId = comId;
+          },
+          cancelReply : function () {
+              this.comId = -1;
+          },
+          comment : function (single, owner ,noteName,index) {
+              // 现在的成功提示存在bug，我的组件那边使用watch，但是两次同时调用一个组件的时候值不变所以watch不到，想使用vux解决这个问题
+              // 1：隐藏输入框 2：判断数据是否合法 3：发送数据 4：操作反馈 5：前端渲染
+              var _comment = single === 0 ? this.mainCommentText : this.commentText,self = this,sourceData = new URLSearchParams();
+              this.comId = -1;
+              this.mainCommentText = "";
+              if(_comment === '') {
+                  this.$vux.toast.show({
+                      'text' : '不允许空评论',
+                      'type' : 'text'
+                  });
+                  return ;
+              }
+              sourceData.append('noteid', this.$route.params.noteid);
+              sourceData.append('single', single);
+              sourceData.append('owner', owner);
+              sourceData.append('comment', _comment);
+              Axios.post(Axios.default.baseURI+"createComment?access_token="+Axios.default.access_token,sourceData).then(function (response) {
+                  console.log(response.data.data);
+                  if(response.data.status === 1) {
+                      if(single === 0) {
+                          self.thisNoteData.comList.push({
+                              'comment' : _comment,
+                              'headimgurl' : window['localStorage']['headimgurl'],
+                              'nickname' : window['localStorage']['nickname'],
+                              'noteName' : noteName,
+                              'isCom' : false,
+                              'time' : '刚刚'
+                          });
+                      }
+                      else {
+                          self.thisNoteData.comList[index].repliedComment.push({
+                              'comment' : _comment,
+                              'headimgurl' : window['localStorage']['headimgurl'],
+                              'nickname' : window['localStorage']['nickname'],
+                              'noteName' : noteName,
+                              'isCom' : false,
+                              'time' : '刚刚'
+                          });
+                      }
+                      self.$vux.toast.show({
+                          'text' : '评论成功',
+                          'type' : 'text'
+                      });
+                  }
+                  else {
+                      self.$vux.toast.show({
+                          'text' : '评论失败',
+                          'type' : 'text'
+                      });
+                  }
+              })
+          },
+          zan : function () {
+              var self = this,sourceData = new URLSearchParams();
+              sourceData.append('noteid', this.$route.params.noteid);
+              Axios.post(Axios.default.baseURI+"zan?access_token="+Axios.default.access_token,sourceData).then(function (response) {
+                  if(response.data.status === 1) {
+                      if(response.data.data.behave === 1) {
+                          self.thisNoteData.isZan = false;
+                          self.thisNoteData.zan++;
+                          self.thisNoteData.zanList.push({
+                            'headimgurl' : response.data.data.headimgurl
+                          })
+                      }
+                      else {
+                        self.thisNoteData.isZan = true;
+                        self.thisNoteData.zan--;
+                        self.thisNoteData.zanList.pop({
+                          'headimgurl' : response.data.data.headimgurl
+                        });
+                      }
+                  }
+              })
+          },
+          deleteNote :  function () {
+              var self = this,sourceData = new URLSearchParams();
+              sourceData.append('noteid', this.$route.params.noteid);
+              Axios.post(Axios.default.baseURI+"deleteNote?access_token="+Axios.default.access_token,sourceData)
+                  .then(function (response) {
+                  if(response.data.status === 1) {
+                      // 将该记录删除并返回上一层，逻辑上这里还需要删除信息流中该条数据
+                      self.clearItem();
+                      self.returnTofind();
+                  }
+              })
+          },
+          clearItem : function () {
+              /*
+              * 这里直接简单粗暴的将数据清空，原因很简单：
+              * 由于接口原因find数据和该type下的该数据noteid不相同，同样的数据未能唯一标识
+              * */
+              this.$store.state.findData.find.data=[];
+              this.$store.state.findData.find.page=1;
+              this.$store.state.findData.find.loadState=1;
+              this.$store.state.findData[this.thisNoteData.type].data=[];
+              this.$store.state.findData[this.thisNoteData.type].page=1;
+              this.$store.state.findData[this.thisNoteData.type].loadState=1;
           }
-        })
       },
-        deleteNote :  function () {
-            var self = this,sourceData = new URLSearchParams();
-            sourceData.append('noteid', this.$route.params.noteid);
-            Axios.post(Axios.default.baseURI+"deleteNote?access_token="+Axios.default.access_token,sourceData)
-                .then(function (response) {
-                if(response.data.status === 1) {
-                    // 将该记录删除并返回上一层，逻辑上这里还需要删除信息流中该条数据
-                    self.clearItem();
-                    self.returnTofind();
-                }
-            })
-        },
-        clearItem : function () {
-            /*
-            * 这里直接简单粗暴的将数据清空，原因很简单：
-            * 由于接口原因find数据和该type下的该数据noteid不相同，同样的数据未能唯一标识
-            * */
-            this.$store.state.findData.find.data=[];
-            this.$store.state.findData.find.page=1;
-            this.$store.state.findData.find.loadState=1;
-            this.$store.state.findData[this.thisNoteData.type].data=[];
-            this.$store.state.findData[this.thisNoteData.type].page=1;
-            this.$store.state.findData[this.thisNoteData.type].loadState=1;
-            // 1、将当前 find 下的该数据删除，若失败将find数据清空 2、将该type的数据清空
-//            const find = this.$store.state.findData.find;
-//            var boolVar = false;
-//            for(var i in find) {
-//                if(find.data[i].noteid === noteid) {
-//
-//                    return true;
-//                }
-//            }
-//            if(!boolVar) {
-//                // 清空find数据
-//            }
-            // 清空该type数据
-        }
-    },
-    components:{
-//        Gallery,
-        Toast,
-        Previewer
-    },
-  created : function () {
-//    this.$store.state.tabbar = false;
-    var self = this;
-    Axios.get(Axios.default.baseURI+"getDetail?access_token="+Axios.default.access_token,{
-      params : {
-        noteid  : this.$route.params.noteid
+      components:{
+          Toast,
+          Previewer
+      },
+      created : function () {
+          const self = this,wx=this.$wechat,nowHref = window.location.protocol+'//'+window.location.host+window.location.pathname+'?noteid='+this.$route.params.noteid;
+          Axios.get(Axios.default.baseURI+"getDetail?access_token="+Axios.default.access_token,{
+              params : {
+                noteid  : this.$route.params.noteid
+              }
+          }).then(function (response) {
+              self.thisNoteData = response.data.data;
+              var img = response.data.data.imgInfo;
+              for (var index in img) {
+                  self.list.push(img[index]);
+              }
+              // 重新注册分享、允许用户分享到指定 detial ，参数使用 get 的 detail
+              shareReady(wx,nowHref,self.thisNoteData.content,'点击查看详情');
+          });
       }
-    }).then(function (response) {
-      self.thisNoteData = response.data.data;
-      var img = response.data.data.imgInfo;
-      for (var index in img) {
-          self.list.push(img[index]);
-      }
-    })
-
   }
-}
 </script>
 
 <style>

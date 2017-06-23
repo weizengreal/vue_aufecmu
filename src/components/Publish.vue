@@ -94,10 +94,13 @@
                 }
                 let picList = {};
                 this.picList.forEach((item, index) => {
-//                    console.log(item);
                     picList[index] = item;
                 });
-                const sourceData = new URLSearchParams(),self = this;
+                alert('there0');
+                var sourceData = new URLSearchParams();
+                alert('there1');
+                const self = this;
+                alert('there2');
                 sourceData.append('type', this.$route.params.type);
                 sourceData.append('content', this.content);
                 sourceData.append('imgInfo', JSON.stringify(picList));
@@ -109,15 +112,18 @@
                             data : [],
                             loadState : 1
                         };
+                        alert('inner ajax');
                         self.$router.go(-1);
                     }
                     else {
-                        this.$vux.toast.show({
+                        alert('inner ajax');
+                        self.$vux.toast.show({
                             'text' : '发帖失败',
                             'type' : 'text'
                         });
                     }
                 });
+                alert('end');
             },
             cancel : function () {
                 this.$router.go(-1);
