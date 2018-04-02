@@ -1,19 +1,16 @@
 <template>
 
-  <div class="weui-tabbar" style="position: fixed" v-if="this.$store.state.tabbar">
-    <router-link to="/theme" href="javascript:;"  class="weui-tabbar__item" style="padding: 2px 0 0;">
-                    <span style="display: inline-block;position: relative;">
-                        <img v-bind:src="this.themeImg" alt="" class="weui-tabbar__icon" style="width: 22px;height: 22px;">
-                    </span>
-      <p class="weui-tabbar__label" v-bind:style="{ 'color' : clickTabbar == 2 ? '#000' : '#999999' }" >主题</p>
-    </router-link>
-    <router-link to="/find/find" href="javascript:;"  class="weui-tabbar__item" style="padding: 2px 0 0;">
-                    <span style="display: inline-block;position: relative;">
-                        <img v-bind:src="this.findImg" alt="" class="weui-tabbar__icon" style="width: 22px;height: 22px;">
-                    </span>
-      <p class="weui-tabbar__label" v-bind:style="{ 'color' : clickTabbar == 1 ? '#000' : '#999999' }" style="line-height: 1.5">发现</p>
-    </router-link>
-  </div>
+    <div id="menu" class="menu">
+        <router-link class="subMenu text-center" to="/theme" href="javascript:;">
+            <img v-bind:src="this.themeImg" class="menu_img" />
+            <p class="menu_name" v-bind:style="{ 'color' : clickTabbar == 2 ? '#000' : '#999999' }">主题</p>
+        </router-link>
+        <router-link class="subMenu text-center" to="/find/find" href="javascript:;">
+            <img v-bind:src="this.findImg" class="menu_img" />
+            <p class="menu_name" v-bind:style="{ 'color' : clickTabbar == 1 ? '#000' : '#999999' }">发现</p>
+        </router-link>
+    </div>
+
 </template>
 
 <script>
@@ -91,7 +88,46 @@
 </script>
 
 <style>
-  .weui-tabbar__item.weui-bar__item_on .weui-tabbar__label{
-    color: #000;
+
+  .menu {
+      display: block;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      height: 45px;
+      color: #474747;
+      /*padding-top: 10px;*/
+      border-top: 1px solid #c0bfc466;
+      background-color: #f7f7fa;
   }
+
+  .subMenu {
+      width: 50%;
+      float: left;
+      cursor: pointer;
+  }
+
+  .menu_name {
+      height: 30px;
+      width: 100%;
+      font-size: 10px;
+      line-height: 1.5;
+      padding-top: 1px;
+  }
+
+  img.menu_img {
+      height: 22px;
+      width: 22px;
+      padding-top: 1px;
+  }
+
+  img {
+      vertical-align: middle;
+      border: 0;
+  }
+
+  .text-center {
+      text-align: center
+  }
+
 </style>

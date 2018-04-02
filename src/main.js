@@ -25,7 +25,7 @@ import shareReady from './utils/share'
 Vue.use(VueRouter);
 Vue.use(WechatPlugin);
 Vue.use(ToastPlugin);
-Axios.default.baseURI="https://api.aufe.vip/xyq/";
+Axios.default.baseURI="http://api.aufe.vip/xyq/";
 
 
 
@@ -114,7 +114,7 @@ var app = new Vue({
       }
     } else {
       var auth = true;
-      Axios.default.baseURI="https://api.aufe.vip/xyqdev/";
+      Axios.default.baseURI="http://api.aufe.vip/xyqdev/";
       Axios.default.access_token = "$2y$10$GZIXZ0fw2UFQG47qBRqFHetwlm/1i4NIfgB8VW/xA5MBjxHIHkpVu";
         window['localStorage']['headimgurl']='http://wx.qlogo.cn/mmopen/icmQ48CnYice8MUpvmcQF6yDzZqVjcypYvcDyCrff1L3np3flwV1gPn39tUHibhaWzrbqLt5YPK1frHB6qwnzrQV4nZduemCqLp/0';
         window['localStorage']['nickname']='Lego';
@@ -123,7 +123,7 @@ var app = new Vue({
 
     const self = this,wx = this.$wechat,sourceData = new URLSearchParams();
     sourceData.append('url', encodeURIComponent(location.href.split('#')[0]));
-      Axios.post('https://api.aufe.vip/jssdk/zacShare',sourceData).then(function (response) {
+      Axios.post('http://api.aufe.vip/jssdk/zacShare',sourceData).then(function (response) {
           const data = response.data;
           wx.config({
               debug: false,
